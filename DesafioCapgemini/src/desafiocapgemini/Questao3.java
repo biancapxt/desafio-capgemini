@@ -2,74 +2,56 @@ package desafiocapgemini;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Questao3 {
 
-public static void main(String[] args) {
+    static boolean verificarAnagrama(String s1, String s2) {
+        char[] vetor1 = s1.toCharArray();  //cada string é transformada em um array
+        char[] vetor2 = s2.toCharArray();
 
-        Scanner tcl = new Scanner(System.in);
-        System.out.println("Digite uma palavra: ");
-        String n = tcl.nextLine();
-        List<String> lista = new ArrayList();
+        Arrays.sort(vetor1);                //ordenar os caracteres dos arrays
+        Arrays.sort(vetor2);
+
+        if (s1.length() == s2.length()) {
+            for (int i = 0; i < s1.length(); i++) {
+                if (vetor1[i] != vetor2[i]) // checar se as substrings sao diferentes
+                {
+                    return false;           //caso sejam diferentes, retornar falso
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static int anagrama(String n) {
         int cont = 0;
-        
-        for (int i = 0; i < n.length(); i++) {
-            for (int j = i + 1; j <= n.length(); j++) {
-                lista.add(n.substring(i, j));
+        for (int i = 1; i < n.length(); i++) {
+            List<String> lista = new ArrayList<>();  //lista para armazenar as substrings
+            for (int j = 0; j <= n.length(); j++) {
+                if (i + j <= n.length()) {
+                    lista.add(n.substring(j, i + j));  // armazenando as substrings na lista
+                }
             }
-        }
-
-        System.out.println(lista);
-
-        Collections.sort(lista);
-
-        System.out.println(lista);
-        
-        List<String> listaItensOrdenados = new ArrayList();
-        for(String item : lista){
-            String itemLista[] = item.split("");
-            Arrays.sort(itemLista);
-            
-            String itemOrdenado = "";
-            for(String item2 : itemLista){
-                itemOrdenado += item2;
-            }
-            
-            listaItensOrdenados.add(itemOrdenado);
-        }
-
-        System.out.println(listaItensOrdenados);
-        
-        for(String itemOrdenado : listaItensOrdenados){
-            for(String item : listaItensOrdenados){
-                if(item.length() == itemOrdenado.length()){
-                    if(item.equals(itemOrdenado)){
-                        cont++;
+            for (int k = 0; k < lista.size(); k++) {
+                for (int m = k + 1; m < lista.size(); m++) {
+                    if (verificarAnagrama(lista.get(k), lista.get(m))) {  //verificar se substrings são anagramas
+                        cont++;                 //se sim, acrescenta +1 ao contador
                     }
                 }
             }
         }
-        
-        System.out.println(cont);
-        
-        //falta terminar
-        
-        /*
-        for (int i = 0; i < listaItensOrdenados.size(); i++) {
-            for (int j = i+1; j <= listaItensOrdenados.size(); j++) {
-                if(lista.get(i).length() == listaItensOrdenados.get(j).length()){
-                    if(lista.get(i).equals(listaItensOrdenados.get(j))){
-                        cont++;
-                    }
-                }
-            }
-        }
-        
-        System.out.println(cont);
-        */
-    }    
+        return cont;
+    }
+
+    public static void main(String[] args) {
+        Scanner tcl = new Scanner(System.in);
+        System.out.println("Digite uma palavra: "); //entrar com a palavra
+        String n = tcl.next();                      // palavra armazenada na variavel n
+        System.out.println(anagrama(n));
+        tcl.close();
+    }
 }
