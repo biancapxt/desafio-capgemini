@@ -41,7 +41,7 @@ public class Questao2 {
                 break;
             }
         }
-
+        
         if (6 - senha.length() > 4 - cont) {
             System.out.println(6 - senha.length());
         } else {
